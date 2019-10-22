@@ -8,7 +8,7 @@ CARDS = ['Ac', '2c', '3c', '4c', '5c', '6c', '7c', '8c', '9c', 'Tc', 'Jc', 'Qc',
 RESIDUES = [2, 4, 5, 8, 9, 10, 11, 16, 17, 18, 20, 21, 22, 25, 29, 31, 32, 34, 36, 37, 39, 40, 41, 42, 44, 45, 49, 50, 53, 55, 57, 58, 61, 62, 64, 67, 68, 69, 71, 72, 73, 74, 78, 79, 80, 81, 82, 83, 84, 85, 88, 90]
 
 class Dealer:
-	def __init__(self, cards=CARDS, shuffle_key=None, deck_keys=None, crypto_params=PUBLIC_PARAMS):
+	def __init__(self, cards=CARDS, shuffle_key=None, crypto_params=PUBLIC_PARAMS):
 		if PUBLIC_PARAMS == crypto_params and len(cards)<=52:
 			residues = RESIDUES
 		else:
