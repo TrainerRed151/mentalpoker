@@ -3,12 +3,12 @@ from functools import reduce
 from operator import mul
 from random import shuffle
 
-''' 
+'''
 	Extended Elgamal Encryption Suite
 	Original Implementation By: cypherpleb
 	
 	Universally re-encryptable, commutative ElGamal based cryptosystem. For scheme details see:
-	http://groups.csail.mit.edu/cis/theses/weis-phd-thesis.pdf
+	http://groups.csail.mit.edu/cis/theses/weis-phd-thesis.pdf (p 71)
 
     Also includes:
 	- Basic ElGamal Encryption
@@ -112,19 +112,19 @@ class PrivateKey:
 		else:
 			raise ValueError("Private Key does not correlate to this ciphertext")
 
-    def three_pass_reencrypt(self, ciphertext, neighbor_beta):
-        c1,c2=ciphertext
-        k = randrange(1,self.pub.q)
-        z1=c1*pow(self.pub.g, k, self.pub.p)%self.pub.p
-        z2=pow(z1, self.alpha, self.pub.p)*pow(neighbor_beta, k, self.pub.p)*c2%self.pub.p
-        return z1, z2
-    
-    def three_pass_redecrypt(self, ciphertext, neighbor_beta):
-        c1,c2=ciphertext
-        k = randrange(1, self.pub.q)
-        z1=c1*pow(self.pub.g, k, self.pub.p)%self.pub.p
-        z2=mod_inv(pow(c1, self.alpha, self.pub.p), self.pub.p)*pow(neighbor_beta, k, self.pub.p)*c2%self.pub.p
-        return z1,z2
+	def three_pass_reencrypt(self, ciphertext, neighbor_beta):
+		c1,c2=ciphertext
+		k = randrange(1,self.pub.q)
+		z1=c1*pow(self.pub.g, k, self.pub.p)%self.pub.p
+		z2=pow(z1, self.alpha, self.pub.p)*pow(neighbor_beta, k, self.pub.p)*c2%self.pub.p
+		return z1, z2
+
+	def three_pass_redecrypt(self, ciphertext, neighbor_beta):
+		c1,c2=ciphertext
+		k = randrange(1, self.pub.q)
+		z1=c1*pow(self.pub.g, k, self.pub.p)%self.pub.p
+		z2=mod_inv(pow(c1, self.alpha, self.pub.p), self.pub.p)*pow(neighbor_beta, k, self.pub.p)*c2%self.pub.p
+		return z1,z2
 
 	def public_key(self):
 		return self.pub
