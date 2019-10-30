@@ -1,7 +1,4 @@
-from secrets import randbelow, choice
-from functools import reduce
-from operator import mul
-from random import shuffle
+from .utils import *
 
 '''
 	Extended Elgamal Encryption Suite
@@ -25,12 +22,8 @@ G = 0xAC4032EF4F2D9AE39DF30B5C8FFDAC506CDEBE7B89998CAF74866A08CFE4FFE3A6824A4E10
 Q = 0x801C0D34C58D93FE997177101F80535A4738CEBCBF389A99B36371EB
 PUBLIC_PARAMS = [P,G,Q]
 
-# Crypto-safe RNG from python secrets module
-def randrange(a,b):
-	return randbelow(b-a)+a
-
 # ElGamal Public Key
-class PublicKey:
+class EGPublicKey:
 	def __init__(self, beta, public_params=PUBLIC_PARAMS):
 		self.beta = beta
 		self.p, self.g, self.q = public_params
@@ -66,7 +59,7 @@ class PublicKey:
 
 
 # ElGamal Private Key
-class PrivateKey:
+class EGPrivateKey:
 	def __init__(self, alpha=None, public_params=PUBLIC_PARAMS):
 		p,g,q = public_params
 		if alpha is None:
@@ -76,7 +69,7 @@ class PrivateKey:
 		else:
 			self.alpha = alpha
 		beta = pow(g, self.alpha, p)
-		self.pub = PublicKey(beta, public_params)
+		self.pub = EGPublicKey(beta, public_params)
 
 	def encrypt(self, message):
 		return self.pub.encrypt(message)
@@ -128,20 +121,3 @@ class PrivateKey:
 
 	def public_key(self):
 		return self.pub
-
-# Modular Math
-def mod_inv(x, p):
-    assert gcd(x, p) == 1, "Divisor %d not coprime to modulus %d" % (x, p)
-    z, a = (x % p), 1
-    while z != 1:
-        q = - (p // z)
-        z, a = (p + q * z), (q * a) % p
-    return a
-
-def prod(vals):
-	return reduce(mul, vals, 1)
-
-def gcd(a, b):
-    while b:
-        a, b = b, a % b
-    return a

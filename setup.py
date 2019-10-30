@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='mentalpoker',
-      version='0.1.2',
+      version='0.2.0',
       description='cryptographically secure card shuffling, dealing, revealing without TTP',
       url='http://github.com/cypherpleb/mentalpoker',
       author='cypherpleb',

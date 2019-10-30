@@ -20,18 +20,18 @@ python >=3.6
 
 ## Usage
 
-`from mentalpoker import Dealer`
+`from mentalpoker import DealerEC, DealerEG`
 
-For the standard mental poker cryptographic operations use the `Dealer` class.
+For the standard mental poker cryptographic operations use the `DealerEC` or `DealerEG` class. The two classes function identically but each uses a different crypto system (EC for elliptic curves and EG for elgamal).
 
-Participating parties in a p2p card game should all implement a `Dealer`, since everyone participates in the dealing operations (in every single hand) to assure fairness.The basic scheme for preparing a deck for card game play without a trusted dealer involves passing the deck in a ring two times: starting with a new deck the first participant does a shuffle(), then passes the shuffled deck to the next player who also does a shuffle(), when the first participant receives the deck again they run deal(), and pass the output deck to the next player who also runs deal() etc. Once every party has run shuffle() and deal(), the final output deck is ready for play.
+Participating parties in a p2p card game should all implement a matching `Dealer` (same crypto parameters), since everyone participates in the dealing operations (in every single hand) to assure fairness. The basic scheme for preparing a deck for card game play without a trusted dealer involves passing the deck in a ring two times: starting with a new deck the first participant does a shuffle(), then passes the shuffled deck to the next player who also does a shuffle(), when the first participant receives the deck again they run deal(), and pass the output deck to the next player who also runs deal() etc. Once every party has run shuffle() and deal(), the final output deck is ready for play.
 
 Here is a two party example:
 
 ```
->>> from mentalpoker import Dealer
->>> dealerA = Dealer()
->>> dealerB = Dealer()
+>>> from mentalpoker import DealerEC
+>>> dealerA = DealerEC()
+>>> dealerB = DealerEC()
 >>> deck = dealerA.new_deck // A takes a fresh deck of cards
 >>> deck = dealerA.shuffle(deck) // A shuffles and encrypts the deck
 >>> deck = dealerB.shuffle(deck) // B shuffles and encrypts the deck received from A
@@ -44,5 +44,5 @@ Here is a two party example:
 
 To reveal cards, everyone passes their decryption key for the card with that index in the deck. To make a card part of someones "hand", everyone reveals their decryption key only to one party who can then secretly see the card. If everyone broadcasts their decrpytion keys, then everyon can view the card at that index.
 
-There is no limit on the number of players, though performance deteriorates worse than linearly as the number of parties grows.
+There is no limit on the number of players, though performance deteriorates worse with ElGamal cryptosystem as the number of players increases.
 
