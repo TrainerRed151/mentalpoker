@@ -1,4 +1,4 @@
-from ecdsa import *
+from ecdsa import curves
 from .utils import *
 import binascii
 
