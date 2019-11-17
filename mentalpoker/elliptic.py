@@ -1,4 +1,4 @@
-from ecdsa import curves
+from ecdsa import curves, ellipticcurve
 from .utils import *
 import binascii
 
